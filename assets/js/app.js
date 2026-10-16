@@ -1123,9 +1123,11 @@
         const r = divs[lo].getBoundingClientRect();
         return { page: lo + 1, frac: Math.max(0, Math.min(1, (y - r.top) / r.height)) };
       }
+      /* Target the reading line as it will be once the toolbar has stuck to the top, not where it is right now. */
+      const stuckLine = () => { const bar = $(".reader-bar"); return (parseFloat(getComputedStyle(bar).top) || 0) + bar.offsetHeight + 12; };
       function goTo(page, frac) {
         const d = divs[Math.max(0, Math.min(n, page) - 1)];
-        window.scrollTo(0, window.scrollY + d.getBoundingClientRect().top + (frac || 0) * d.offsetHeight - line() + (frac ? 0 : 4));
+        window.scrollTo(0, window.scrollY + d.getBoundingClientRect().top + (frac || 0) * d.offsetHeight - stuckLine() + (frac ? 0 : 4));
       }
       let saveT = null, cur = 1;
       flush = () => { clearTimeout(saveT); if (!doc) return; const p = position(); S.books[id] = { page: p.page, frac: Math.round(p.frac * 1000) / 1000, zoom, pages: n, at: Date.now(), title }; save(); };
