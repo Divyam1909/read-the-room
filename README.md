@@ -5,9 +5,13 @@ A free 12-week course in observation, memory, reading people and mentalism, insp
 ## What's inside
 
 - **12 weekly lessons** written from scratch, each with a "What the research says" note that separates solid findings from debated ones.
-- **Interactive drills:** Kim's Game, word-list memory, names, card order, four scenario quizzes (biases, influence, facial expressions, cold reading) and a which-hand tracker that shows the odds of your score by luck.
+- **16 practice tools:** Kim's Game, spot the change (flicker task), wide view (useful field of view), word list, names, faces and names, numbers with the Major system, card order, baseline spotter, illustrated facial expressions with a micro-expression flash mode, a which-hand tracker that shows the odds of your score by luck, a pacing timer, and four scenario quizzes (biases, influence, expressions, cold reading) with 40 to 51 questions each.
 - **Weekly tests and monthly exams**, scored automatically where possible.
-- **Daily task checklists**, a **progress tracker**, and a **journal**.
+- **Today dashboard** with daily streaks, today's tasks and the drill due next.
+- **Progress tracker** with an activity calendar, before-and-after test comparisons, score charts for every drill, and a shareable results card or certificate made in the browser.
+- **Performance mode:** script builder, teleprompter, show timer and an honest reading tracker.
+- **Search** across lessons, research notes, tasks, tools and the library, plus a 60-term **glossary**.
+- **Journal** for nightly notes and guesses.
 - **Library** of the best books, free legal textbooks and courses, and videos.
 - Light and dark themes, works on phones, keyboard accessible, no accounts and no tracking.
 
@@ -28,17 +32,23 @@ python3 -m http.server 8000
 ```
 index.html              App shell
 assets/css/styles.css   All styles (light and dark)
-assets/js/content.js    Course content: weeks, lessons, tasks, tests, library
+assets/js/content.js    Course content: weeks, lessons, tasks, tests, library, glossary
 assets/js/banks.js      Quiz questions and drill data
+assets/js/faces.js      Illustrated faces built from facial action units
 assets/js/drills.js     Interactive drills
-assets/js/app.js        Routing, pages, storage, tracker, journal
+assets/js/charts.js     SVG and HTML charts for the tracker
+assets/js/card.js       Share card, certificate and link-preview image (canvas)
+assets/js/app.js        Routing, pages, storage, streaks, tracker, search, performance mode
+assets/og.png           Link-preview image (made with card.js)
 assets/favicon.svg      Icon
 vercel.json             Vercel settings (static site)
 ```
 
 ## Editing the course
 
-All lesson text lives in `assets/js/content.js`. Each week has `lessons`, `evidence`, `study` links, `tasks`, practice `tools` and a `test`. Quiz questions are in `assets/js/banks.js`; add items to any bank and they appear automatically.
+All lesson text lives in `assets/js/content.js`. Each week has `lessons`, `evidence`, `study` links, `tasks`, practice `tools` and a `test`. Quiz questions are in `assets/js/banks.js`; add items to any bank and they appear automatically. If a wrong option could also fit a scenario, list it in the item's `x` array so it is never offered as a distractor.
+
+When you change any file in `assets`, bump the `?v=` number on its link in `index.html` so returning visitors get the new version.
 
 ## Deploy
 

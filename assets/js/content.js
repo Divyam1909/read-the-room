@@ -65,7 +65,7 @@ window.COURSE = {
         { t: "Crash Course Psychology, episodes 1 to 5", u: yt("Crash Course Psychology") },
         { t: "The selective attention test (Simons and Chabris)", u: yt("selective attention test Simons Chabris") }
       ],
-      tools: ["kims"],
+      tools: ["kims", "changes", "peripheral"],
       tasks: [
         "Room scan: look at a room for 10 seconds, close your eyes and list everything. Check. Use a new room each day.",
         "Describe 3 strangers in your journal with 5 specific details each: shoes, hands, bag, posture, expression.",
@@ -106,7 +106,7 @@ window.COURSE = {
         { t: "Nelson Dellis on remembering names", u: yt("Nelson Dellis remember names") },
         { t: "Learning How to Learn (free to audit on Coursera)", u: "https://www.coursera.org/search?query=Learning%20How%20to%20Learn" }
       ],
-      tools: ["words", "names"],
+      tools: ["words", "names", "facenames", "major"],
       tasks: [
         "Memorise a 20-word list with your palace using the word drill. Recall it again one hour later.",
         "Learn and use the name of everyone you meet. Link each name to a feature of their face.",
@@ -142,6 +142,15 @@ window.COURSE = {
 <li><strong>Hindsight bias:</strong> "I knew it all along" after the fact.</li>
 <li><strong>Loss aversion:</strong> losses hurt more than equal gains please.</li>
 <li><strong>Base-rate neglect:</strong> ignoring how common something is when judging a specific case.</li>
+</ul>` },
+        { h: "Twenty more to recognise", body: `
+<p>The bias quiz goes further than the ten above. Learn these too; the quiz explains each one as you meet it.</p>
+<ul>
+<li><strong>Availability's cousins:</strong> the <em>frequency illusion</em> (noticing something everywhere once you've learned about it) and the <em>spotlight effect</em> (thinking everyone noticed you).</li>
+<li><strong>About yourself:</strong> <em>overconfidence</em>, <em>optimism bias</em> (bad things happen to other people), the <em>planning fallacy</em> (projects take longer than planned, every time), the <em>illusion of control</em>, <em>self-serving bias</em> (credit for wins, excuses for losses) and the <em>curse of knowledge</em> (forgetting what it was like not to know).</li>
+<li><strong>About others:</strong> <em>in-group bias</em>, the <em>false consensus effect</em> (assuming others think like you), the <em>bandwagon effect</em> and the <em>Barnum effect</em>.</li>
+<li><strong>About value:</strong> the <em>endowment effect</em> (what we own feels worth more), <em>status quo bias</em>, the <em>decoy effect</em> and the <em>peak-end rule</em> (we remember an experience by its peak and its end).</li>
+<li><strong>About evidence:</strong> <em>survivorship bias</em> (judging only the winners you can still see), the <em>gambler's fallacy</em> (believing a random outcome is "due"), <em>negativity bias</em> and the <em>mere exposure effect</em> (liking things just because they are familiar).</li>
 </ul>` },
         { h: "Why mentalists care", body: `
 <p>Mentalists use these shortcuts constantly. When a performer asks you to "think of a number between 1 and 10, quickly", the time pressure pushes you into System 1, where answers are far more predictable. When they recall only their hits, the audience's confirmation bias does the rest. Understanding biases is also your best defence: it keeps you honest about your own reads.</p>` },
@@ -188,7 +197,7 @@ window.COURSE = {
         { t: "Three more Sherlock Holmes stories (free)", u: "https://www.gutenberg.org/ebooks/1661" },
         { t: "Watch 2 episodes of The Mentalist and pause before each reveal", u: yt("The Mentalist Patrick Jane observation scene") }
       ],
-      tools: ["kims", "words"],
+      tools: ["kims", "words", "changes"],
       tasks: [
         "Deduction game: guess one person's job, hobby or mood from appearance alone. Verify when you can.",
         "Write each deduction as a chain: I saw X, which usually means Y, so probably Z.",
@@ -216,7 +225,7 @@ window.COURSE = {
         { h: "Comfort and discomfort", body: `
 <p>Former FBI agent Joe Navarro frames most body language as signs of comfort or discomfort. Comfort looks like open posture, relaxed shoulders, leaning in and mirroring. Discomfort looks like:</p>
 <ul><li><strong>Distancing:</strong> leaning away, turning the torso or feet toward the exit.</li><li><strong>Blocking:</strong> placing a bag, cup or folded arms between you.</li><li><strong>Freezing:</strong> suddenly becoming very still.</li><li><strong>Self-soothing:</strong> rubbing the neck, touching the face, stroking the arms, playing with hair or jewellery.</li></ul>
-<p>The feet are especially honest, because people rarely think to control them.</p>` },
+<p>Navarro argues the feet are especially honest, because people rarely think to control them. It is a popular idea with little direct research behind it, so treat feet as one more signal in a cluster, never as proof on their own.</p>` },
         { h: "Clusters and context", body: `
 <p>Never trust one signal. Look for <em>clusters</em>: three or four signs pointing the same way, at the same moment. And always check context: crossed arms in a cold room mean cold.</p>` },
         { h: "The muted interview drill", body: `<p>Put on a TV interview or a reality show and mute it. Every minute, write the emotion you see and what you based it on. Then rewatch with sound. You will quickly learn which of your reads were real and which were stories you told yourself.</p>` }
@@ -226,7 +235,7 @@ window.COURSE = {
         { t: "What Every Body Is Saying (Joe Navarro)", u: ol("What Every Body Is Saying Navarro") },
         { t: "WIRED: Former FBI Agent Explains How to Read Body Language", u: yt("WIRED Former FBI Agent Explains How to Read Body Language Joe Navarro") }
       ],
-      tools: [],
+      tools: ["baseline"],
       tasks: [
         "Pick one person in a conversation and watch for 2 minutes. Note their baseline: posture, blinking, hands, speech.",
         "Notice one change from baseline, such as feet turning away or arms crossing, and guess what caused it.",
@@ -268,7 +277,7 @@ window.COURSE = {
         { t: "Greater Good Emotional Intelligence Quiz (free)", u: "https://greatergood.berkeley.edu/quizzes/ei_quiz" },
         { t: "Reading the Mind in the Eyes Test (search for a free version)", u: "https://www.google.com/search?q=Reading+the+Mind+in+the+Eyes+Test+online" }
       ],
-      tools: ["quiz:emotions"],
+      tools: ["quiz:emotions", "faces"],
       tasks: [
         "Mirror practice: make the 7 expressions and feel which muscles move.",
         "Spot and name 5 expressions in real people or videos each day.",
@@ -299,6 +308,12 @@ window.COURSE = {
 <li><strong>Shotgunning:</strong> many quick possibilities to a group, then following whichever one lands.</li>
 <li><strong>Warm reading:</strong> using visible clues, such as a ring, a uniform, rough hands or a tan line.</li>
 <li><strong>Reframing a miss:</strong> turning a wrong guess into a right one. "Not a brother? Then someone who is like a brother to you."</li>
+</ul>` },
+        { h: "Three more from Rowland's toolkit", body: `
+<ul>
+<li><strong>The fuzzy fact:</strong> a statement that sounds factual but is vague enough to be shaped by the reaction. "I'm seeing a connection with Europe, possibly Britain, or somewhere warmer in the south."</li>
+<li><strong>The vanishing negative:</strong> a question phrased so either answer is a hit. "You don't work with children, do you?" If no: "No, I didn't think so." If yes: "Yes, I sensed that."</li>
+<li><strong>Hot reading:</strong> not reading at all, but information gathered in advance, from social media, overheard conversations or research, then presented as insight. It is how many fake psychics have been caught.</li>
 </ul>` },
         { h: "Why it feels so accurate", body: `<p>Listeners do most of the work. They search their own lives for a match, remember the hits and forget the misses, and give away information with their faces. A good reader simply watches for nods and leans further into whatever gets a reaction.</p>` },
         { h: "The honest way to use it", body: `<p>Cold reading has been used by fake psychics to take money from grieving people. Performers like Derren Brown and Suhani Shah are open that their readings are psychology and skill. Follow their example: practise only with people who know you are practising, and always explain afterwards how it worked. That reveal is often the most impressive part.</p>` }
@@ -395,7 +410,7 @@ window.COURSE = {
         { t: "Mark Wilson's Complete Course in Magic", u: ol("Mark Wilson's Complete Course in Magic") },
         { t: "13 Steps to Mentalism (Tony Corinda), first steps", u: ol("13 Steps to Mentalism Corinda") }
       ],
-      tools: ["words", "cards"],
+      tools: ["words", "cards", "major"],
       tasks: [
         "Learn the 3 effects above and rehearse each one for 20 minutes a day on camera.",
         "Run the memory demonstration privately with 20 random words until it is reliable.",
@@ -426,9 +441,10 @@ window.COURSE = {
       study: [
         { t: "Suhani Shah performances", u: yt("Suhani Shah mentalist performance") },
         { t: "Derren Brown specials and interviews", u: yt("Derren Brown mind control") },
-        { t: "Banachek interviews on mentalism", u: yt("Banachek mentalism interview") }
+        { t: "Banachek interviews on mentalism", u: yt("Banachek mentalism interview") },
+        { t: "Performance mode on this site: script builder, teleprompter and show timer", u: "#/perform" }
       ],
-      tools: [],
+      tools: ["pacing"],
       tasks: [
         "Write a script for each effect: hook, premise, process, climax, applause cue.",
         "Record yourself performing. Watch it back and fix one thing each day: speed, nervous habits, eye contact.",
@@ -461,7 +477,8 @@ window.COURSE = {
       study: [
         { t: "Re-read your notes on baselines, cold reading and rapport (weeks 5, 7 and 8)", u: "#/week/5" },
         { t: "Muscle reading demonstrations", u: yt("muscle reading mentalism Hellstromism") },
-        { t: "The ideomotor effect explained", u: yt("ideomotor effect explained") }
+        { t: "The ideomotor effect explained", u: yt("ideomotor effect explained") },
+        { t: "Reading tracker in performance mode: log hits and misses honestly", u: "#/perform/readings" }
       ],
       tools: ["whichhand"],
       tasks: [
@@ -491,9 +508,10 @@ window.COURSE = {
       evidence: `<p>Your tracker is your evidence. Compare week 1, week 6 and week 12. Improvement on measured, honest tests is what separates real skill from feeling skilled.</p>`,
       study: [
         { t: "Your progress tracker", u: "#/tracker" },
+        { t: "Performance mode: run your 10-minute show with the show timer", u: "#/perform/timer" },
         { t: "Your journal", u: "#/journal" }
       ],
-      tools: ["kims", "words", "names", "whichhand"],
+      tools: ["kims", "words", "names", "facenames", "whichhand", "faces"],
       tasks: [
         "Rehearse a full 10-minute show: 3 to 4 effects plus one observation or reading moment.",
         "Do 2 full dress rehearsals on camera.",
@@ -557,6 +575,69 @@ window.COURSE = {
       { t: "Banachek interviews", what: "How a top mentalist thinks about method", week: "10 to 12", u: yt("Banachek interview") }
     ]
   },
+
+  glossary: [
+    { t: "Abductive reasoning", w: 4, d: "Reasoning to the best available explanation for a set of clues. What Sherlock Holmes calls deduction is mostly this. It is never certain." },
+    { t: "Action unit", w: 6, d: "One visible movement of facial muscles, such as raising the inner brows, in the Facial Action Coding System (FACS) developed by Paul Ekman and Wallace Friesen. Expressions are described as combinations of action units." },
+    { t: "Anchoring", w: 3, d: "The first number we hear pulls later estimates toward it, even when it is irrelevant." },
+    { t: "Applause cue", w: 10, d: "A clear signal that an effect has ended, such as a pause, a smile or a step back, so the audience knows when to react." },
+    { t: "Authority", w: 8, d: "Cialdini's principle that we defer to experts and to symbols of expertise, such as titles and uniforms." },
+    { t: "Availability heuristic", w: 3, d: "Judging how likely something is by how easily examples come to mind." },
+    { t: "Barnum effect", w: 7, d: "Also called the Forer effect. People rate vague, general descriptions as highly accurate descriptions of themselves." },
+    { t: "Base-rate neglect", w: 3, d: "Ignoring how common something is in general when judging a specific case." },
+    { t: "Baseline", w: 5, d: "How a particular person normally behaves when relaxed: posture, gestures, blinking, speech. Signals only mean something as changes from it." },
+    { t: "Change blindness", w: 1, d: "Failing to notice large changes in a scene when the change happens during a brief interruption, such as a blink or a cut." },
+    { t: "Chunking", w: 1, d: "Grouping separate items into meaningful units so more fit in short-term memory." },
+    { t: "Cluster", w: 5, d: "Several signals that change together at the same moment. Far more informative than any single gesture." },
+    { t: "Cognitive bias", w: 3, d: "A predictable error in judgment that comes from the mental shortcuts we use." },
+    { t: "Cold reading", w: 7, d: "Techniques that make a stranger feel deeply understood using general statements, questions and their own reactions." },
+    { t: "Commitment and consistency", w: 8, d: "Cialdini's principle that once we say a small yes, we tend to keep acting in line with it." },
+    { t: "Confirmation bias", w: 3, d: "Noticing, seeking and remembering information that fits what we already believe." },
+    { t: "Contempt", w: 6, d: "The only classic expression that is one-sided: one lip corner tightened and raised." },
+    { t: "Door-in-the-face", w: 8, d: "Making a large request that will be refused, then a smaller one. The concession feels like a favour that deserves one back." },
+    { t: "Duchenne smile", w: 6, d: "A felt smile that raises the cheeks and crinkles the eye corners, not just the mouth. Named after the 19th-century scientist Guillaume Duchenne." },
+    { t: "Endowment effect", w: 3, d: "Valuing something more simply because we own it." },
+    { t: "Fishing", w: 7, d: "A cold reading question disguised as a statement, so the other person supplies the details." },
+    { t: "Foot-in-the-door", w: 8, d: "Getting agreement to a small request first, which makes a larger request more likely to succeed." },
+    { t: "Force", w: 9, d: "A method that makes a person's apparently free choice turn out the way the performer needs. Psychological forces only work some of the time." },
+    { t: "Framing effect", w: 3, d: "The same facts lead to different choices depending on how they are worded." },
+    { t: "Fundamental attribution error", w: 3, d: "Explaining other people's behaviour by their character while underestimating their situation." },
+    { t: "Fuzzy fact", w: 7, d: "Ian Rowland's term for a statement that sounds factual but is vague enough to be shaped by the response." },
+    { t: "Halo effect", w: 3, d: "One positive trait, such as looks or confidence, colours our judgment of unrelated traits." },
+    { t: "Heuristic", w: 3, d: "A mental rule of thumb that is usually good enough but fails in predictable ways." },
+    { t: "Hindsight bias", w: 3, d: "The feeling, after an outcome, that we knew it all along." },
+    { t: "Hot reading", w: 7, d: "Information gathered in advance, through research, social media or accomplices, and presented as a reading." },
+    { t: "Ideomotor effect", w: 11, d: "Tiny movements the body makes toward what a person is thinking about, without conscious intent. Described by William Carpenter in 1852." },
+    { t: "Inattentional blindness", w: 1, d: "Failing to see something in plain view because attention is elsewhere, as in the famous gorilla experiment." },
+    { t: "Kim's Game", w: 1, d: "A memory and observation exercise from Kipling's novel Kim: study a set of objects briefly, then recall them." },
+    { t: "Labeling", w: 8, d: "Naming the emotion you think someone feels, such as \"It sounds like that was stressful.\" A rapport technique taught by Chris Voss." },
+    { t: "Liking", w: 8, d: "Cialdini's principle that we say yes to people we like, who are similar to us or who compliment us." },
+    { t: "Loss aversion", w: 3, d: "Losses feel larger than gains of the same size." },
+    { t: "Major system", w: 2, d: "A code that turns each digit into a consonant sound (1 is t or d, 2 is n, 3 is m and so on) so numbers can be turned into words and memorised." },
+    { t: "Memory palace", w: 2, d: "Also called the method of loci. Remembering items by placing vivid images of them along a route you know well." },
+    { t: "Mentalism", w: 9, d: "A performing art that creates the experience of mind reading, prediction and influence, using method, psychology and showmanship." },
+    { t: "Micro-expression", w: 6, d: "A facial expression that flashes for a fraction of a second, often before being masked. It shows an emotion was felt, not why." },
+    { t: "Mirroring", w: 8, d: "Repeating the last few important words someone said, with curiosity, which invites them to say more." },
+    { t: "Muscle reading", w: 11, d: "Finding a hidden object by feeling a person's tiny, unconscious movements through light touch. Also called Hellstromism. Always ask before touching." },
+    { t: "Out", w: 9, d: "A prepared way to continue gracefully when an effect misses, so the show never stalls." },
+    { t: "Peak-end rule", w: 3, d: "We judge an experience mostly by its most intense moment and its ending, rather than its average." },
+    { t: "Rainbow ruse", w: 7, d: "Ian Rowland's term for a statement that credits someone with a trait and its opposite, so it cannot miss." },
+    { t: "Rapport", w: 8, d: "The feeling of being understood, built with names, open questions, mirroring, labeling and listening." },
+    { t: "Reciprocity", w: 8, d: "Cialdini's principle that we feel obliged to return gifts, favours and concessions." },
+    { t: "Reframing a miss", w: 7, d: "Turning a wrong guess into an apparent hit by widening it or pushing it into the future." },
+    { t: "Scarcity", w: 8, d: "Cialdini's principle that things seem more valuable when they are rare or running out." },
+    { t: "Self-soothing", w: 5, d: "Touching the neck, face, arms or hair when uncomfortable. Navarro calls these pacifying behaviours. A sign that something matters, never proof of lying." },
+    { t: "Shotgunning", w: 7, d: "Firing many quick guesses at a group and following whichever one lands." },
+    { t: "Social proof", w: 8, d: "Cialdini's principle that we copy what people like us are doing, especially when unsure." },
+    { t: "Spaced repetition", w: 2, d: "Reviewing material at growing intervals, such as an hour, a day and a week later. One of the best-supported ways to remember." },
+    { t: "Survivorship bias", w: 3, d: "Drawing conclusions only from the cases that survived some process, ignoring the failures we can no longer see." },
+    { t: "System 1 and System 2", w: 3, d: "Kahneman's labels for fast, automatic thinking and slow, effortful thinking." },
+    { t: "Thin-slicing", w: 4, d: "Forming impressions from very brief observations. Research by Ambady and Rosenthal found such impressions are more accurate than chance for some traits." },
+    { t: "Unity", w: 8, d: "Cialdini's seventh principle: a shared identity, such as family, hometown or team, makes us more open to influence." },
+    { t: "Useful field of view", w: 1, d: "How wide an area you can take in at a glance while also attending to the centre. The basis of the Wide view drill." },
+    { t: "Vanishing negative", w: 7, d: "Ian Rowland's term for a question phrased so that either answer can be claimed as a hit: \"You don't work with children, do you?\"" },
+    { t: "Warm reading", w: 7, d: "Using visible clues, such as a ring, a uniform or rough hands, and presenting the deduction as intuition." }
+  ],
 
   challenges: [
     "Count how many people you see wearing a watch today, and on which wrist.",
