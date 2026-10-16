@@ -44,6 +44,7 @@ window.COURSE = {
     {
       n: 1, month: 1, title: "Learning to see",
       summary: "Most people look without observing. This week you learn to scan a scene in a fixed order, describe before you interpret, and remember what you saw.",
+      intro: { t: "The selective attention test (Simons and Chabris)", v: "vJG698U2Mvo", note: "Before you read on, watch this one-minute video and count how many times the players in white pass the ball. Then read the first lesson." },
       lessons: [
         { h: "Seeing is not observing", body: `
 <p>Your eyes take in far more than your brain keeps. Attention acts like a spotlight: whatever sits outside it is easy to miss, even when it is right in front of you. Psychologists call this <em>inattentional blindness</em>. In a famous 1999 experiment by Daniel Simons and Christopher Chabris, about half the people counting basketball passes in a video failed to notice a person in a gorilla suit walking through the middle of the scene.</p>
@@ -61,9 +62,9 @@ window.COURSE = {
       evidence: `<p><strong>Solid:</strong> inattentional blindness is one of the best-replicated findings in attention research. Naming and grouping items (chunking) reliably improves short-term recall.</p><p><strong>Be careful with:</strong> claims that observation training makes you "see everything". Practice improves the specific tasks you practise, so vary your drills.</p>`,
       study: [
         { t: "Mastermind: How to Think Like Sherlock Holmes (Maria Konnikova), chapters 1 to 3", u: ol("Mastermind How to Think Like Sherlock Holmes") },
-        { t: "A Scandal in Bohemia, in The Adventures of Sherlock Holmes (free, Project Gutenberg)", u: "https://www.gutenberg.org/ebooks/1661" },
-        { t: "Crash Course Psychology, episodes 1 to 5", u: yt("Crash Course Psychology") },
-        { t: "The selective attention test (Simons and Chabris)", u: yt("selective attention test Simons Chabris") }
+        { t: "A Scandal in Bohemia, the first story in The Adventures of Sherlock Holmes (read it on this site)", u: "#/read/sherlock" },
+        { t: "Crash Course Psychology: series preview", v: "eal4-A89IWY" },
+        { t: "Crash Course Psychology, episodes 1 to 5 (full playlist on YouTube)", u: "https://www.youtube.com/playlist?list=PL8dPuuaLjXtOPRKzVLY0jJY-uHOH9KVU6" }
       ],
       tools: ["kims", "changes", "peripheral"],
       tasks: [
@@ -194,7 +195,7 @@ window.COURSE = {
       evidence: `<p><strong>Solid:</strong> "thin-slicing" research (Ambady and Rosenthal) shows that people form surprisingly accurate impressions of some traits, such as extraversion, from very brief observations.</p><p><strong>Be careful with:</strong> the accuracy is modest and uneven. Some traits, like honesty, are very hard to judge from appearance. Verify your reads.</p>`,
       study: [
         { t: "Mastermind (Maria Konnikova), remaining chapters", u: ol("Mastermind How to Think Like Sherlock Holmes") },
-        { t: "Three more Sherlock Holmes stories (free)", u: "https://www.gutenberg.org/ebooks/1661" },
+        { t: "Three more Sherlock Holmes stories (read them on this site)", u: "#/read/sherlock" },
         { t: "Watch 2 episodes of The Mentalist and pause before each reveal", u: yt("The Mentalist Patrick Jane observation scene") }
       ],
       tools: ["kims", "words", "changes"],
@@ -531,10 +532,15 @@ window.COURSE = {
     }
   ],
 
+  /* Books hosted on this site. Only public-domain or openly licensed books belong here. */
+  readable: [
+    { id: "sherlock", t: "The Adventures of Sherlock Holmes", a: "Arthur Conan Doyle", file: "assets/books/adventures-of-sherlock-holmes.pdf", size: "1.4 MB", week: "Weeks 1 to 4", note: "Twelve stories, public domain, from Project Gutenberg. Start with A Scandal in Bohemia." }
+  ],
+
   library: {
     books: [
       { t: "Mastermind: How to Think Like Sherlock Holmes", a: "Maria Konnikova", skill: "Observation", week: "1, 4", tier: "Core" },
-      { t: "The Adventures of Sherlock Holmes", a: "Arthur Conan Doyle", skill: "Observation", week: "1 to 4", tier: "Core", free: "https://www.gutenberg.org/ebooks/1661" },
+      { t: "The Adventures of Sherlock Holmes", a: "Arthur Conan Doyle", skill: "Observation", week: "1 to 4", tier: "Core", free: "#/read/sherlock" },
       { t: "Moonwalking with Einstein", a: "Joshua Foer", skill: "Memory", week: "2", tier: "Core" },
       { t: "Thinking, Fast and Slow", a: "Daniel Kahneman", skill: "Psychology", week: "3", tier: "Core" },
       { t: "What Every Body Is Saying", a: "Joe Navarro", skill: "Body language", week: "5", tier: "Core" },
@@ -558,12 +564,13 @@ window.COURSE = {
       { t: "Open Yale Courses", type: "Free lectures", what: "Full lecture series, including introductory psychology, with no sign-up.", u: "https://oyc.yale.edu" },
       { t: "Social Psychology (Wesleyan)", type: "Free course", what: "Persuasion, conformity and how people judge others.", u: "https://www.coursera.org/search?query=Social%20Psychology%20Wesleyan" },
       { t: "Learning How to Learn", type: "Free course", what: "How to study and remember better. Speeds up everything else.", u: "https://www.coursera.org/search?query=Learning%20How%20to%20Learn" },
-      { t: "Sherlock Holmes stories", type: "Free e-books", what: "Public domain, on Project Gutenberg.", u: "https://www.gutenberg.org/ebooks/1661" },
+      { t: "The Adventures of Sherlock Holmes", type: "Free e-book", what: "Public domain. Read it on this site or download the PDF.", u: "#/read/sherlock" },
       { t: "Greater Good Emotional Intelligence Quiz", type: "Free test", what: "Read emotions from photos of faces.", u: "https://greatergood.berkeley.edu/quizzes/ei_quiz" },
       { t: "Open Library", type: "Free book lending", what: "Borrow digital copies of many of the books above, legally.", u: "https://openlibrary.org" }
     ],
     videos: [
-      { t: "Crash Course Psychology", what: "40 short episodes covering all of psychology", week: "1 to 4", u: yt("Crash Course Psychology") },
+      { t: "Crash Course Psychology", what: "40 short episodes covering all of psychology", week: "1 to 4", u: "https://www.youtube.com/playlist?list=PL8dPuuaLjXtOPRKzVLY0jJY-uHOH9KVU6" },
+      { t: "The selective attention test (Simons and Chabris)", what: "The one-minute video behind inattentional blindness", week: "1", u: "https://www.youtube.com/watch?v=vJG698U2Mvo" },
       { t: "Paul Bloom's Yale psychology lectures", what: "University-level depth", week: "1 to 4", u: yt("Paul Bloom Yale Introduction to Psychology lecture") },
       { t: "Nelson Dellis", what: "Memory palace, names, numbers and cards", week: "2", u: yt("Nelson Dellis memory") },
       { t: "WIRED: Joe Navarro on body language", what: "Grounded body language", week: "5", u: yt("WIRED Former FBI Agent Explains How to Read Body Language") },

@@ -10,12 +10,13 @@
   const KEY = "read-the-room-v1";
   let memoryOnly = false;
   const blankShow = () => ({ effects: [], draft: "", runs: [], target: 10, prompter: { speed: 40, size: 44, mirror: false } });
-  const blank = () => ({ v: 1, start: null, tasks: {}, tests: {}, practice: {}, journal: [], theme: null, activity: {}, name: "", show: blankShow(), readings: [], readingDraft: { who: "", log: [] } });
+  const blank = () => ({ v: 1, start: null, tasks: {}, tests: {}, practice: {}, journal: [], theme: null, activity: {}, name: "", show: blankShow(), readings: [], readingDraft: { who: "", log: [] }, books: {} });
   function normalise(d) {
     const s = Object.assign(blank(), d);
     s.show = Object.assign(blankShow(), s.show);
     s.show.prompter = Object.assign(blankShow().prompter, s.show.prompter);
     s.readingDraft = Object.assign({ who: "", log: [] }, s.readingDraft);
+    if (!s.books || typeof s.books !== "object") s.books = {};
     return s;
   }
   function load() {
@@ -217,6 +218,7 @@
           <ul class="today-status">
             <li class="${passedParts === parts.length ? "ok" : ""}"><a href="#/week/${cw.n}/test">${cw.n % 4 === 0 ? "Exam" : "Sunday test"}: ${passedParts} of ${parts.length} ${parts.length === 1 ? "part" : "parts"} passed</a></li>
             <li class="${journaled ? "ok" : ""}"><a href="#/journal">${journaled ? "Journal written today" : "Journal entry tonight"}</a></li>
+            ${lastBook() ? `<li class="book"><a href="#/read/${lastBook().id}">Continue ${esc(lastBook().title || "your book")}, page ${lastBook().page}</a></li>` : ""}
           </ul>
         </div>
       </div>
@@ -335,12 +337,13 @@
       <h1><span class="wk-big">${n}</span>${esc(w.title)}</h1>
       <p class="lede">${esc(w.summary)}</p>
       <div class="week-status"><span>Daily tasks ${weekTaskPct(w)} percent done</span><span class="${passed ? "ok" : ""}">${passed ? "Sunday test passed" : "Sunday test not passed yet"}</span></div>
+      ${w.intro ? `<section class="intro-video"><h2>Try this first</h2>${videoHTML(w.intro, w.intro.note)}</section>` : ""}
 
       ${w.lessons.map((l, i) => `<section id="w${n}-s${i}" tabindex="-1"><h2>${esc(l.h)}</h2>${l.body}</section>`).join("")}
 
       <aside class="evidence" id="w${n}-evidence" tabindex="-1"><h2>What the research says</h2>${w.evidence}</aside>
 
-      <section><h2>Study this week</h2><ul class="study">${w.study.map((s) => `<li><a href="${s.u}" ${s.u.startsWith("#") ? "" : 'target="_blank" rel="noopener"'}>${esc(s.t)}</a></li>`).join("")}</ul></section>
+      <section><h2>Study this week</h2><ul class="study">${w.study.map((s) => (s.v ? `<li class="study-video">${videoHTML(s)}</li>` : `<li><a href="${s.u}" ${s.u.startsWith("#") ? "" : 'target="_blank" rel="noopener"'}>${esc(s.t)}</a></li>`)).join("")}</ul></section>
 
       ${w.tools.length ? `<section id="w${n}-tools" tabindex="-1"><h2>Practice tools</h2><p>Use these as often as you like. Practice runs don't affect your test.</p><div class="tool-chips">${w.tools.map(toolButton).join("")}</div></section>` : ""}
 
@@ -425,13 +428,14 @@
       <p class="crumb">Resources</p>
       <h1>Library</h1>
       <p class="lede">The best books, free courses and videos, in the order the course uses them. Book links search Open Library, where many titles can be borrowed free and legally.</p>
+      ${readHereHTML()}
       <h2>Books</h2>
-      ${Object.keys(tiers).map((tier) => `<h3>${tiers[tier]}</h3><div class="table-wrap"><table><thead><tr><th>Book</th><th>Author</th><th>Skill</th><th>Week</th></tr></thead><tbody>${L.books.filter((b) => b.tier === tier).map((b) => `<tr><td><a href="${b.free || ol(b.t + " " + b.a)}" target="_blank" rel="noopener">${esc(b.t)}</a>${b.free ? ' <span class="pill">free</span>' : ""}</td><td>${esc(b.a)}</td><td>${esc(b.skill)}</td><td>${esc(b.week)}</td></tr>`).join("")}</tbody></table></div>`).join("")}
+      ${Object.keys(tiers).map((tier) => `<h3>${tiers[tier]}</h3><div class="table-wrap"><table><thead><tr><th>Book</th><th>Author</th><th>Skill</th><th>Week</th></tr></thead><tbody>${L.books.filter((b) => b.tier === tier).map((b) => `<tr><td><a href="${b.free || ol(b.t + " " + b.a)}" ${b.free && b.free.startsWith("#") ? "" : 'target="_blank" rel="noopener"'}>${esc(b.t)}</a>${b.free ? ' <span class="pill">free</span>' : ""}</td><td>${esc(b.a)}</td><td>${esc(b.skill)}</td><td>${esc(b.week)}</td></tr>`).join("")}</tbody></table></div>`).join("")}
       <h2>Free and legal: textbooks, courses and tests</h2>
       <p>Avoid pirated PDFs of mentalism books. They are often incomplete, and the mentalism community is small and depends on people buying from creators.</p>
-      <div class="table-wrap"><table><thead><tr><th>Resource</th><th>Type</th><th>What it covers</th></tr></thead><tbody>${L.free.map((r) => `<tr><td><a href="${r.u}" target="_blank" rel="noopener">${esc(r.t)}</a></td><td>${esc(r.type)}</td><td>${esc(r.what)}</td></tr>`).join("")}</tbody></table></div>
+      <div class="table-wrap"><table><thead><tr><th>Resource</th><th>Type</th><th>What it covers</th></tr></thead><tbody>${L.free.map((r) => `<tr><td><a href="${r.u}" ${r.u.startsWith("#") ? "" : 'target="_blank" rel="noopener"'}>${esc(r.t)}</a></td><td>${esc(r.type)}</td><td>${esc(r.what)}</td></tr>`).join("")}</tbody></table></div>
       <h2>Videos and channels</h2>
-      <p>Links open a YouTube search, so you always reach the current official uploads. Skip channels promising "dark psychology" or instant lie detection.</p>
+      <p>Where there is one definitive video or playlist, the link goes straight to it. Other links open a YouTube search, so you always reach the creator's current official uploads. Skip channels promising "dark psychology" or instant lie detection.</p>
       <div class="table-wrap"><table><thead><tr><th>Channel or video</th><th>What you learn</th><th>Week</th></tr></thead><tbody>${L.videos.map((v) => `<tr><td><a href="${v.u}" target="_blank" rel="noopener">${esc(v.t)}</a></td><td>${esc(v.what)}</td><td>${esc(v.week)}</td></tr>`).join("")}</tbody></table></div>
     </article>`;
   };
@@ -848,6 +852,7 @@
     });
     C.glossary.forEach((g) => ix.push({ kind: "Glossary", title: g.t, text: g.d, href: `#/glossary/${slug(g.t)}` }));
     TOOL_LIST.forEach(([t, b]) => ix.push({ kind: "Practice tool", title: toolName(t, b), text: toolBlurb(t, b), href: `#/tools/${toolKey(t, b)}` }));
+    C.readable.forEach((b) => ix.push({ kind: "Read on this site", title: b.t, text: `${b.a}. ${b.note}`, href: `#/read/${b.id}` }));
     C.library.books.forEach((b) => ix.push({ kind: "Book", title: b.t, text: `${b.a}. ${b.skill}. Week ${b.week}.`, href: "#/library" }));
     C.library.free.forEach((r) => ix.push({ kind: "Free resource", title: r.t, text: `${r.type}. ${r.what}`, href: "#/library" }));
     C.library.videos.forEach((v) => ix.push({ kind: "Video", title: v.t, text: `${v.what}. Week ${v.week}.`, href: "#/library" }));
@@ -910,6 +915,261 @@
     inp.focus(); inp.setSelectionRange(inp.value.length, inp.value.length);
   }
 
+  /* ---------------- Videos ---------------- */
+  /* Click-to-play: nothing loads from YouTube until the reader presses play, and then it uses the privacy-enhanced domain. */
+  function videoHTML(v, note) {
+    return `<figure class="yt"><div class="yt-frame" data-yt="${esc(v.v)}" data-title="${esc(v.t)}"><button class="yt-play" type="button"><span class="yt-icon" aria-hidden="true"></span><span class="yt-title">${esc(v.t)}</span><span class="yt-note">Plays from YouTube in privacy-enhanced mode</span></button></div>${note ? `<figcaption>${esc(note)}</figcaption>` : ""}<p class="yt-link"><a href="https://www.youtube.com/watch?v=${esc(v.v)}" target="_blank" rel="noopener">Open on YouTube</a></p></figure>`;
+  }
+  document.addEventListener("click", (e) => {
+    const b = e.target.closest(".yt-play"); if (!b) return;
+    const f = b.parentElement, id = f.dataset.yt;
+    if (!/^[\w-]{6,20}$/.test(id)) return;
+    const ifr = document.createElement("iframe");
+    ifr.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+    ifr.title = f.dataset.title;
+    ifr.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+    ifr.allowFullscreen = true;
+    ifr.referrerPolicy = "strict-origin-when-cross-origin";
+    f.replaceChildren(ifr); ifr.focus();
+  });
+
+  /* ---------------- Books ---------------- */
+  /* Hosted books are public domain. A reader's own PDFs are kept in IndexedDB on their device and never uploaded. */
+  const IDB = {
+    p: null,
+    open() {
+      if (!this.p) this.p = new Promise((res, rej) => {
+        if (!window.indexedDB) { rej(new Error("no indexedDB")); return; }
+        const r = indexedDB.open("read-the-room", 1);
+        r.onupgradeneeded = () => r.result.createObjectStore("books", { keyPath: "id" });
+        r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error);
+      });
+      return this.p;
+    },
+    async run(mode, fn) {
+      const db = await this.open();
+      return new Promise((res, rej) => { const t = db.transaction("books", mode); const req = fn(t.objectStore("books")); t.oncomplete = () => res(req && req.result); t.onerror = () => rej(t.error); t.onabort = () => rej(t.error); });
+    },
+    all() { return this.run("readonly", (s) => s.getAll()); },
+    get(id) { return this.run("readonly", (s) => s.get(id)); },
+    put(v) { return this.run("readwrite", (s) => s.put(v)); },
+    del(id) { return this.run("readwrite", (s) => s.delete(id)); }
+  };
+  const memBooks = {};
+  const hosted = (id) => C.readable.find((b) => b.id === id);
+  const bookPos = (id) => S.books[id] || null;
+  const posText = (p) => (p && p.pages ? `Page ${p.page} of ${p.pages}` : "Not started");
+  function hashId(s) { let h = 5381; for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) >>> 0; return "my-" + h.toString(36); }
+  function lastBook() {
+    const ids = Object.keys(S.books).filter((id) => S.books[id].pages);
+    if (!ids.length) return null;
+    const id = ids.sort((a, b) => S.books[b].at - S.books[a].at)[0];
+    return Object.assign({ id }, S.books[id]);
+  }
+
+  function bookCard(b) {
+    const p = bookPos(b.id), pct = p && p.pages ? Math.round((p.page / p.pages) * 100) : 0;
+    return `<div class="book-card"><p class="book-week">${esc(b.week)}</p><h3>${esc(b.t)}</h3><p class="muted">${esc(b.a)}</p><p>${esc(b.note)}</p>
+      <div class="book-progress"><span class="meter thin" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}"><span style="width:${pct}%"></span></span><span class="muted small">${posText(p)}</span></div>
+      <div class="drill-actions left"><a class="btn primary" href="#/read/${b.id}">${p && p.pages ? "Continue reading" : "Read"}</a><a class="btn" href="${b.file}" download="${esc(b.t)}.pdf">Download PDF (${esc(b.size)})</a></div></div>`;
+  }
+  const readHereHTML = () => `
+      <h2 id="read-here" tabindex="-1">Read on this site</h2>
+      <p>Books open in the reader and remember exactly where you stopped, so the next time you open one, you're back on the same spot.</p>
+      <div class="book-grid">${C.readable.map(bookCard).join("")}
+        <div class="book-card own"><h3>Your own books</h3><p class="muted">Open a PDF you own, such as a copy of <em>Mastermind</em>. It stays on this device and is never uploaded. Your place is remembered here too.</p>
+          <ul class="own-list" aria-live="polite"></ul>
+          <label class="btn">Open a PDF from this device<input type="file" accept="application/pdf,.pdf" hidden data-act="own-open"></label></div>
+      </div>`;
+  async function bindOwnBooks() {
+    const list = $(".own-list"); if (!list) return;
+    let recs = [];
+    try { recs = await IDB.all(); } catch (e) { recs = Object.values(memBooks); }
+    recs.sort((a, b) => ((S.books[b.id] || {}).at || b.added) - ((S.books[a.id] || {}).at || a.added));
+    list.innerHTML = recs.map((r) => `<li><a href="#/read/${r.id}">${esc(r.name)}</a><span class="muted small">${posText(bookPos(r.id))}</span><button class="btn ghost small" data-own-del="${r.id}" aria-label="Remove ${esc(r.name)} from this device">Remove</button></li>`).join("");
+    $$("[data-own-del]", list).forEach((b) => b.addEventListener("click", async () => {
+      if (!confirm("Remove this book and its saved page from this device?")) return;
+      try { await IDB.del(b.dataset.ownDel); } catch (e) { /* not stored */ }
+      delete memBooks[b.dataset.ownDel]; delete S.books[b.dataset.ownDel]; save(); bindOwnBooks();
+    }));
+    const inp = $("[data-act=own-open]");
+    if (inp && !inp.dataset.bound) {
+      inp.dataset.bound = "1";
+      inp.addEventListener("change", async () => {
+        const f = inp.files[0]; inp.value = ""; if (!f) return;
+        const isPdf = f.type === "application/pdf" || /\.pdf$/i.test(f.name);
+        if (!isPdf) { toast("That file isn't a PDF"); return; }
+        const id = hashId(f.name + "|" + f.size + "|" + f.lastModified);
+        const rec = { id, name: f.name.replace(/\.pdf$/i, ""), size: f.size, added: Date.now(), blob: f };
+        try { await IDB.put(rec); }
+        catch (e) { memBooks[id] = rec; toast("This browser can't keep the file, so open it again next time. Your page is still remembered."); }
+        location.hash = "#/read/" + id;
+      });
+    }
+  }
+
+  let pdfjsP = null;
+  function loadPdfjs() {
+    if (!pdfjsP) pdfjsP = import(new URL("assets/vendor/pdfjs/pdf.min.mjs?v=4.10.38", document.baseURI).href).then((m) => {
+      m.GlobalWorkerOptions.workerSrc = new URL("assets/vendor/pdfjs/pdf.worker.min.mjs?v=4.10.38", document.baseURI).href;
+      return m;
+    });
+    return pdfjsP;
+  }
+
+  pages.read = (id) => {
+    const b = hosted(id);
+    return `
+    <article class="reader" aria-label="Book reader">
+      <div class="reader-bar">
+        <a class="btn ghost small" href="#/library/read-here" aria-label="Back to the library"><span aria-hidden="true">←</span><span class="rb-label" aria-hidden="true">Library</span></a>
+        <p class="reader-title"><span class="rt-name">${b ? esc(b.t) : "Your book"}</span>${b ? ` <span class="muted">${esc(b.a)}</span>` : ""}</p>
+        <div class="reader-nav"><button class="btn small" data-rd="prev" aria-label="Previous page">‹</button><label class="sr" for="rd-page">Page number</label><input id="rd-page" type="number" min="1" inputmode="numeric" value="1"><span class="muted small rd-of">of …</span><button class="btn small" data-rd="next" aria-label="Next page">›</button></div>
+        <div class="reader-zoom"><button class="btn small" data-rd="out" aria-label="Zoom out">−</button><span class="rd-zoom small" aria-live="polite">100%</span><button class="btn small" data-rd="in" aria-label="Zoom in">+</button></div>
+        ${b ? `<a class="btn small" href="${b.file}" download="${esc(b.t)}.pdf">Download</a>` : ""}
+      </div>
+      <p class="reader-status muted" role="status">Opening the book…</p>
+      <div class="reader-pages"></div>
+    </article>`;
+  };
+
+  async function openReader(id) {
+    const status = $(".reader-status"), wrap = $(".reader-pages"); if (!wrap) return;
+    let alive = true, doc = null, task = null;
+    const timers = [];
+    const off = [];
+    const on = (el, ev, fn, o) => { el.addEventListener(ev, fn, o); off.push(() => el.removeEventListener(ev, fn, o)); };
+    let flush = () => {};
+    pageCleanup = () => { alive = false; flush(); off.forEach((f) => f()); timers.forEach(clearTimeout); if (io) io.disconnect(); if (task) task.destroy(); };
+    let io = null;
+
+    const b = hosted(id);
+    let src = null, title = b ? b.t : "";
+    try {
+      if (b) src = { url: b.file };
+      else {
+        let rec = memBooks[id] || null;
+        if (!rec) { try { rec = await IDB.get(id); } catch (e) { rec = null; } }
+        if (!rec) { status.innerHTML = `This book isn't saved on this device. <a href="#/library/read-here">Open it again from the library</a>; your page is still remembered.`; return; }
+        title = rec.name; $(".rt-name").textContent = rec.name; document.title = rec.name + " | " + C.name;
+        src = { data: new Uint8Array(await rec.blob.arrayBuffer()) };
+      }
+      const pdfjs = await loadPdfjs(); if (!alive) return;
+      task = pdfjs.getDocument(Object.assign({ isEvalSupported: false }, src));
+      doc = await task.promise; if (!alive) return;
+      if (!b) {
+        /* Prefer the title stored inside the PDF over the file name. */
+        const meta = await doc.getMetadata().catch(() => null);
+        const t = meta && meta.info && String(meta.info.Title || "").trim();
+        if (t && alive) {
+          title = t; $(".rt-name").textContent = t; document.title = t + " | " + C.name;
+          IDB.get(id).then((rec) => { if (rec && rec.name !== t) { rec.name = t; return IDB.put(rec); } }).catch(() => {});
+        }
+      }
+
+      const n = doc.numPages, saved = bookPos(id) || {};
+      let zoom = saved.zoom || 1, renderKey = 1;
+      const first = await doc.getPage(1); if (!alive) return;
+      const base = first.getViewport({ scale: 1 });
+      const ratio = new Array(n).fill(base.height / base.width);
+      /* Measure every page first so the layout, and therefore the saved position, is exact even when page sizes vary. */
+      status.textContent = "Preparing pages…";
+      for (let i = 2; i <= n; i += 40) {
+        await Promise.all(Array.from({ length: Math.min(40, n - i + 1) }, (_, j) => doc.getPage(i + j).then((pg) => { const v = pg.getViewport({ scale: 1 }); ratio[i + j - 1] = v.height / v.width; })));
+        if (!alive) return;
+      }
+      const pageInput = $("#rd-page"); pageInput.max = n; $(".rd-of").textContent = `of ${n}`;
+      const zoomText = () => { $(".rd-zoom").textContent = Math.round(zoom * 100) + "%"; };
+      zoomText();
+      const pageW = () => Math.round(Math.min(wrap.clientWidth, 860) * zoom);
+
+      wrap.innerHTML = Array.from({ length: n }, (_, i) => `<div class="rpage" data-n="${i + 1}" role="img" aria-label="Page ${i + 1} of ${n}"></div>`).join("");
+      const divs = $$(".rpage", wrap);
+      const sizeAll = () => { const w = pageW(); divs.forEach((d, i) => { d.style.width = w + "px"; d.style.height = Math.round(w * ratio[i]) + "px"; }); };
+      sizeAll();
+      status.textContent = "";
+
+      const drawing = new Set();
+      async function draw(div) {
+        const k = renderKey, num = +div.dataset.n;
+        if (div.dataset.key === String(k) || drawing.has(num + ":" + k)) return;
+        drawing.add(num + ":" + k);
+        try {
+          const page = await doc.getPage(num); if (!alive || k !== renderKey) return;
+          const vp1 = page.getViewport({ scale: 1 });
+          const r = vp1.height / vp1.width;
+          if (Math.abs(r - ratio[num - 1]) > 0.001) { const keep = position(); ratio[num - 1] = r; div.style.height = Math.round(pageW() * r) + "px"; goTo(keep.page, keep.frac); }
+          const scale = pageW() / vp1.width, dpr = Math.min(window.devicePixelRatio || 1, 2);
+          const vp = page.getViewport({ scale });
+          const canvas = document.createElement("canvas");
+          canvas.width = Math.floor(vp.width * dpr); canvas.height = Math.floor(vp.height * dpr);
+          await page.render({ canvasContext: canvas.getContext("2d"), viewport: vp, transform: dpr !== 1 ? [dpr, 0, 0, dpr, 0, 0] : null }).promise;
+          if (!alive || k !== renderKey) return;
+          const tl = document.createElement("div"); tl.className = "textLayer"; tl.style.setProperty("--scale-factor", scale);
+          div.replaceChildren(canvas, tl); div.dataset.key = String(k);
+          new pdfjs.TextLayer({ textContentSource: page.streamTextContent(), container: tl, viewport: vp }).render().catch(() => {});
+        } catch (e) { /* page failed or reader closed */ }
+        finally { drawing.delete(num + ":" + k); }
+      }
+      io = new IntersectionObserver((entries) => entries.forEach((en) => { if (en.isIntersecting) draw(en.target); }), { rootMargin: "1200px 0px" });
+      divs.forEach((d) => io.observe(d));
+
+      /* The reading line sits just under the toolbar; the page crossing it is the current page. */
+      const line = () => $(".reader-bar").getBoundingClientRect().bottom + 12;
+      function position() {
+        const y = line();
+        let lo = 0, hi = divs.length - 1;
+        while (lo < hi) { const mid = (lo + hi + 1) >> 1; if (divs[mid].getBoundingClientRect().top <= y) lo = mid; else hi = mid - 1; }
+        const r = divs[lo].getBoundingClientRect();
+        return { page: lo + 1, frac: Math.max(0, Math.min(1, (y - r.top) / r.height)) };
+      }
+      function goTo(page, frac) {
+        const d = divs[Math.max(0, Math.min(n, page) - 1)];
+        window.scrollTo(0, window.scrollY + d.getBoundingClientRect().top + (frac || 0) * d.offsetHeight - line() + (frac ? 0 : 4));
+      }
+      let saveT = null, cur = 1;
+      flush = () => { clearTimeout(saveT); if (!doc) return; const p = position(); S.books[id] = { page: p.page, frac: Math.round(p.frac * 1000) / 1000, zoom, pages: n, at: Date.now(), title }; save(); };
+      const onScroll = () => {
+        const p = position();
+        if (p.page !== cur) { cur = p.page; if (document.activeElement !== pageInput) pageInput.value = cur; }
+        clearTimeout(saveT); saveT = setTimeout(flush, 400);
+        divs.forEach((d, i) => { if (d.dataset.key && Math.abs(i + 1 - cur) > 10) { d.replaceChildren(); delete d.dataset.key; } });
+      };
+      let ticking = false;
+      on(window, "scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { ticking = false; if (alive) onScroll(); }); } }, { passive: true });
+      on(window, "pagehide", flush);
+      on(document, "visibilitychange", () => { if (document.visibilityState === "hidden") flush(); });
+
+      const setZoom = (z) => {
+        const keep = position();
+        zoom = Math.max(0.6, Math.min(2.4, Math.round(z * 10) / 10)); zoomText();
+        renderKey++; divs.forEach((d) => { d.replaceChildren(); delete d.dataset.key; });
+        sizeAll(); goTo(keep.page, keep.frac);
+        divs.forEach((d) => { io.unobserve(d); io.observe(d); });
+        flush();
+      };
+      $("[data-rd=prev]").addEventListener("click", () => goTo(cur - 1, 0));
+      $("[data-rd=next]").addEventListener("click", () => goTo(cur + 1, 0));
+      $("[data-rd=in]").addEventListener("click", () => setZoom(zoom + 0.2));
+      $("[data-rd=out]").addEventListener("click", () => setZoom(zoom - 0.2));
+      pageInput.addEventListener("change", () => { const v = parseInt(pageInput.value, 10); if (v >= 1 && v <= n) goTo(v, 0); else pageInput.value = cur; });
+      on(document, "keydown", (e) => {
+        const t = e.target; if (t && /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)) return;
+        if (!$("#overlay").hidden) return;
+        if (e.key === "ArrowRight") { e.preventDefault(); goTo(cur + 1, 0); }
+        else if (e.key === "ArrowLeft") { e.preventDefault(); goTo(cur - 1, 0); }
+      });
+      let lastW = wrap.clientWidth;
+      on(window, "resize", () => { if (Math.abs(wrap.clientWidth - lastW) > 40) { lastW = wrap.clientWidth; setZoom(zoom); } });
+
+      /* Resume exactly where the reader stopped. Run twice: once now, once after the first pages have drawn and fonts settled. */
+      const resume = () => { if (saved.page) goTo(saved.page, saved.frac || 0); else goTo(1, 0); onScroll(); };
+      resume(); timers.push(setTimeout(() => { if (alive && saved.page) resume(); }, 350));
+    } catch (e) {
+      if (alive) status.textContent = "This book couldn't be opened. " + (b ? "Try the download button instead." : "The file may be damaged or password protected.");
+    }
+  }
+
   /* About */
   pages.about = () => `
     <article class="prose">
@@ -923,7 +1183,7 @@
       <h2>Ethics</h2>
       <ul><li>Never claim real psychic powers. Present your work as psychology, skill and performance.</li><li>Practise readings only on people who know you are practising, and explain afterwards.</li><li>Never use these skills to take money, trust or private information from anyone.</li><li>Ask permission before any touch, including muscle reading.</li><li>Discomfort is not proof of lying. Never accuse anyone based on body language.</li></ul>
       <h2>Your privacy</h2>
-      <p>This site has no accounts and no tracking. Your progress, journal, scripts and reading logs are stored only in your own browser, and share images are created on your device.</p>
+      <p>This site has no accounts and no tracking. Your progress, journal, scripts, reading logs and book positions are stored only in your own browser, share images are created on your device, and books you open from your device stay on it. Videos load from YouTube only when you press play.</p>
       <h2>Disclaimer</h2>
       <p>This course is for education and entertainment. It is not psychological, medical or legal advice.</p>
     </article>`;
@@ -948,7 +1208,8 @@
       html = pages.perform(tab); title = "Performance mode";
       after = { script: bindScript, prompter: bindPrompter, timer: bindTimer, readings: bindReadings }[tab];
     }
-    else if (p === "library") { html = pages.library(); title = "Library"; }
+    else if (p === "library") { html = pages.library(); after = bindOwnBooks; title = "Library"; if (a) target = "#" + a; }
+    else if (p === "read" && a && (hosted(a) || /^my-[a-z0-9]+$/.test(a))) { html = pages.read(a); after = () => openReader(a); title = hosted(a) ? hosted(a).t : "Reader"; }
     else if (p === "glossary") { html = pages.glossary(); title = "Glossary"; if (a) target = "#g-" + a; }
     else if (p === "search") { let q = ""; try { q = decodeURIComponent(parts.slice(1).join("/")); } catch (e) { q = ""; } html = pages.search(q); after = bindSearch; title = "Search"; }
     else if (p === "tracker") { html = pages.tracker(); after = bindTracker; title = "Progress tracker"; }
